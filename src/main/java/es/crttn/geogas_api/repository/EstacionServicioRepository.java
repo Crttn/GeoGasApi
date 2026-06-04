@@ -1,6 +1,7 @@
 package es.crttn.geogas_api.repository;
 
 import es.crttn.geogas_api.models.EstacionServicio;
+import es.crttn.geogas_api.projection.EstacionCercanaProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,4 +32,14 @@ public interface EstacionServicioRepository extends JpaRepository<EstacionServic
             @Param("tipoCombustible") String tipoCombustible,
             @Param("limite") int limite
     );
+
+    // Ubicación aproximada
+    @Query(value = "SELECT e.id, e.rotulo, e.direccion, e.municipio " +
+            "FROM estaciones_servicio e " +
+            "WHERE ST_DWithin(e.ubicacion::geography, ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)::geography, :radioMetros)",
+            nativeQuery = true)
+    List<EstacionCercanaProjection> findEstacionesEnRadio(
+            @Param("lat") double lat,
+            @Param("lon") double lon,
+            @Param("radioMetros") double radioMetros);
 }

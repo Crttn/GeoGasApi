@@ -34,13 +34,3 @@ Para ejecutar este proyecto en tu entorno local, necesitarás tener instalado:
 1.  **Java Development Kit (JDK)** 17 o superior.
 2.  **PostgreSQL** con la extensión **PostGIS** habilitada.
 3.  **cURL** (Viene instalado de forma nativa en macOS y en la mayoría de distribuciones Linux/Windows modernas).
-
----
-
-## 📦 Instalación y Configuración
-
-**1. Preparar la Base de Datos:**
-Crea una base de datos en PostgreSQL (por ejemplo, `Geogasolineras`) y ejecuta el siguiente comando SQL para habilitar las funciones geoespaciales antes de arrancar la aplicación:
-
-```sql
-CREATE EXTENSION IF NOT EXISTS postgis;

@@ -1,9 +1,7 @@
 package es.crttn.geogas_api.repository;
 
 import es.crttn.geogas_api.models.PrecioCombustible;
-import es.crttn.geogas_api.projection.BusquedaFiltroProjection;
-import es.crttn.geogas_api.projection.CalculoTanqueProjection;
-import es.crttn.geogas_api.projection.TopBarataProjection;
+import es.crttn.geogas_api.projections.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 @Repository
 public interface PrecioCombustibleRepository extends JpaRepository<PrecioCombustible, Long> {
@@ -56,5 +55,28 @@ public interface PrecioCombustibleRepository extends JpaRepository<PrecioCombust
             @Param("lat") double lat,
             @Param("lon") double lon,
             @Param("radioMetros") double radioMetros,
+            @Param("tipoCombustible") String tipoCombustible);
+
+    // Estadísticas de Mercado (Media, Min, Max)
+    @Query(value = "SELECT ROUND(AVG(p.precio), 3) AS media_provincia, " +
+            "MIN(p.precio) AS precio_mas_barato, " +
+            "MAX(p.precio) AS precio_mas_caro " +
+            "FROM estaciones_servicio e " +
+            "JOIN precios_combustible p ON e.id = p.estacion_id " +
+            "WHERE e.provincia_id = :provinciaId " +
+            "  AND p.tipo_combustible = :tipoCombustible", nativeQuery = true)
+    EstadisticaMercadoProjection obtenerEstadisticasProvincia(
+            @Param("provinciaId") String provinciaId,
+            @Param("tipoCombustible") String tipoCombustible);
+
+    // Evolución Histórica (Últimos 7 días)
+    @Query(value = "SELECT DATE(fecha_registro) AS dia, precio " +
+            "FROM historico_precios " +
+            "WHERE estacion_id = :estacionId " +
+            "  AND tipo_combustible = :tipoCombustible " +
+            "  AND fecha_registro >= CURRENT_DATE - INTERVAL '7 days' " +
+            "ORDER BY fecha_registro ASC", nativeQuery = true)
+    List<EvolucionHistoricaProjection> obtenerEvolucionHistorica(
+            @Param("estacionId") Long estacionId,
             @Param("tipoCombustible") String tipoCombustible);
 }

@@ -1,7 +1,7 @@
 package es.crttn.geogas_api.repository;
 
 import es.crttn.geogas_api.models.EstacionServicio;
-import es.crttn.geogas_api.projection.EstacionCercanaProjection;
+import es.crttn.geogas_api.projections.EstacionCercanaProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

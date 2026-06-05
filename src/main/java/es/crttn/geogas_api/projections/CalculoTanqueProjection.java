@@ -1,4 +1,4 @@
-package es.crttn.geogas_api.projection;
+package es.crttn.geogas_api.projections;
 
 public interface CalculoTanqueProjection {
     Double getPrecio_por_litro();

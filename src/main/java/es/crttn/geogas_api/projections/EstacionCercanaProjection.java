@@ -1,4 +1,4 @@
-package es.crttn.geogas_api.projection;
+package es.crttn.geogas_api.projections;
 
 public interface EstacionCercanaProjection {
     Long getId();

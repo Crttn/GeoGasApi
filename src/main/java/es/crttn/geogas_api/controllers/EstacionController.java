@@ -1,6 +1,6 @@
 package es.crttn.geogas_api.controllers;
 
-import es.crttn.geogas_api.projection.*;
+import es.crttn.geogas_api.projections.*;
 import es.crttn.geogas_api.repository.EstacionServicioRepository;
 import es.crttn.geogas_api.repository.PrecioCombustibleRepository;
 import org.springframework.http.ResponseEntity;
